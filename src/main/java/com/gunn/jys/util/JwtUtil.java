@@ -1,73 +1,100 @@
 package com.gunn.jys.util;
 
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.JWTVerifier;
-import com.auth0.jwt.algorithms.Algorithm;
-import com.auth0.jwt.interfaces.DecodedJWT;
+import com.gunn.jys.security.verifier.MACVerifierExtended;
+import com.nimbusds.jose.*;
+import com.nimbusds.jose.crypto.MACSigner;
+import com.nimbusds.jwt.JWTClaimsSet;
+import com.nimbusds.jwt.SignedJWT;
 import org.springframework.stereotype.Component;
 
-import java.io.UnsupportedEncodingException;
+import javax.json.Json;
+import javax.json.JsonObject;
+import javax.json.JsonReader;
+import java.io.StringReader;
+import java.text.ParseException;
 import java.util.Date;
 import java.util.UUID;
 
 @Component
 public class JwtUtil {
 
-    //过期时间
-    private static final long EXPIRE_TIME = 30 * 60 * 1000;
+    //过期时间 单位分钟
+    private static final long EXPIRE_TIME = 30;
 
     //由uuid随机生成的secret
     private static final String SECRET = "e25395f4646a406f9b1754d394c8450b";
 
+    //JWT中的签发者
+    private static final String ISSUER = "gjhJys";
+
     /**
-     *  校验token是否正确
-     * @param token
-     * @param username
-     * @param secret
+     * 生成token
+     * @param userId
      * @return
      */
-    public static boolean verify(String token, String username, String secret) {
+    public static String createToken(Object userId) {
         try {
-            Algorithm algorithm = Algorithm.HMAC256(secret);
-            JWTVerifier jwtVerifier = JWT.require(algorithm).withClaim("username", username).build();
-            DecodedJWT jwt = jwtVerifier.verify(token);
-            return true;
-        } catch (Exception e) {
+            JWTClaimsSet.Builder builder = new JWTClaimsSet.Builder();
+            builder.issuer(ISSUER). //签发者
+                    subject(userId.toString()). //jwt所面向的用户
+                    issueTime(new Date()). //jwt签发时间
+                    notBeforeTime(new Date()). //在定义时间之前该jwt都不可用
+                    expirationTime(DateUtils.addMinutes(new Date(), 30)). //token过期时间
+                    jwtID(UUID.randomUUID().toString());
+
+            JWTClaimsSet claimsSet = builder.build();
+            JWSHeader header = new JWSHeader(JWSAlgorithm.HS256);
+            Payload payload = new Payload(claimsSet.toJSONObject());
+            JWSSigner signer = new MACSigner(SECRET);
+            JWSObject jwsObject = new JWSObject(header, payload);
+            jwsObject.sign(signer);
+            return jwsObject.serialize();
+        } catch (JOSEException ex) {
+            return null;
+        }
+    }
+
+    /**
+     * 验证token
+     * @param token
+     * @return
+     */
+    public static boolean validateToken(String token) {
+        try {
+            SignedJWT signedJWT = SignedJWT.parse(token);
+            JWSVerifier verifier = new MACVerifierExtended(SECRET, signedJWT.getJWTClaimsSet());
+            return signedJWT.verify(verifier);
+        } catch (ParseException ex) {
+            return false;
+        } catch (JOSEException ex) {
             return false;
         }
     }
 
     /**
-     * 获取token中的用户名
+     * 从token中获取sub信息
      * @param token
      * @return
+     * @throws ParseException
      */
-    public static String getUsername(String token) {
-        try {
-            DecodedJWT jwt = JWT.decode(token);
-            return jwt.getClaim("username").asString();
-        } catch (Exception e) {
-            return null;
+    public static String getFromToken(String token) throws ParseException {
+        JWSObject jwsObject = JWSObject.parse(token);
+        String decrypted = jwsObject.getPayload().toString();
+
+        try(JsonReader jr = Json.createReader(new StringReader(decrypted))) {
+            JsonObject jsonObject = jr.readObject();
+            String userId = jsonObject.getString("sub", null);
+            return userId;
         }
     }
 
-    /**
-     * 生成签名
-     * @param username
-     * @param secret
-     * @return
-     */
-    public static String sign(String username) {
+    public static String getFromTokenInfo(String token) {
+        String json = null;
         try {
-            Date date = new Date(System.currentTimeMillis() + EXPIRE_TIME);
-            Algorithm algorithm = Algorithm.HMAC256(SECRET);
-            return JWT.create().withClaim("username", username).withExpiresAt(date).sign(algorithm);
-        } catch (UnsupportedEncodingException e) {
-            return null;
+            json = getFromToken(token);
+        } catch (ParseException e) {
+            e.printStackTrace();
         }
-    }
-
-    public static void main(String[] args) {
-        System.out.println(UUID.randomUUID().toString());
+        return json;
     }
 }
