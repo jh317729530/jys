@@ -16,3 +16,9 @@ pagehelper :
 mybatis:
   mapper-locations: classpath:com/gunn/jys/mapper/xml/*.xml
 
+#mappers
+mapper :
+  mappers :
+  not-empty : false
+  identity : MYSQL
+
