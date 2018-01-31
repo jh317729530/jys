@@ -1,21 +1,34 @@
 package com.gunn.jys.security.realm;
 
 import com.gunn.jys.bo.JysSubject;
+import com.gunn.jys.constant.common.EncryptConst;
 import com.gunn.jys.entity.User;
 import com.gunn.jys.mapper.UserMapper;
+import com.gunn.jys.service.UserService;
 import com.gunn.jys.util.JsonUtil;
 import org.apache.shiro.authc.*;
+import org.apache.shiro.authc.credential.CredentialsMatcher;
+import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.util.ByteSource;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.Resource;
 
 public class UsernamePasswordRealm extends AuthorizingRealm {
 
-    @Resource
+    @Autowired
     private UserMapper userMapper;
+
+    @Override
+    public CredentialsMatcher getCredentialsMatcher() {
+        HashedCredentialsMatcher matcher = new HashedCredentialsMatcher();
+        matcher.setHashAlgorithmName(EncryptConst.ALGORITHM_MD5);
+        matcher.setHashIterations(EncryptConst.ITERATION_TIMES);
+        return matcher;
+    }
 
     /**
      * 授权
