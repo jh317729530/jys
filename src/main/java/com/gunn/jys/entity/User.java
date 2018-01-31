@@ -1,6 +1,12 @@
 package com.gunn.jys.entity;
 
+import javax.persistence.*;
+
+@Table(name = "t_user")
 public class User {
+
+    @Id
+    @GeneratedValue(generator = "JDBC")
     private Integer id;
 
     private String username;
