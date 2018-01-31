@@ -1,17 +1,10 @@
 package com.gunn.jys.mapper;
 
+import com.gunn.jys.base.BaseMapper;
 import com.gunn.jys.entity.User;
 
-public interface UserMapper {
-    int deleteByPrimaryKey(Integer id);
+public interface UserMapper extends BaseMapper<User>{
 
-    int insert(User record);
+    User selectByUsername(String username);
 
-    int insertSelective(User record);
-
-    User selectByPrimaryKey(Integer id);
-
-    int updateByPrimaryKeySelective(User record);
-
-    int updateByPrimaryKey(User record);
 }
