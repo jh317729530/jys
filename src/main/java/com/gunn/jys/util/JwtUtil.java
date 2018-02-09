@@ -71,6 +71,20 @@ public class JwtUtil {
         }
     }
 
+    public static boolean isTokenExpired(String token) {
+        SignedJWT signed = null;
+        try {
+            signed = SignedJWT.parse(token);
+            MACVerifierExtended verifier = new MACVerifierExtended(SECRET.getBytes(), signed.getJWTClaimsSet());
+            return verifier.isExpired();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        } catch (JOSEException e) {
+            e.printStackTrace();
+        }
+        return true;
+    }
+
     /**
      * 从token中获取sub信息
      * @param token

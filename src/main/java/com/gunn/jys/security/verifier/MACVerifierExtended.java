@@ -27,4 +27,9 @@ public class MACVerifierExtended extends MACVerifier {
 
         return value && claimsSet.getNotBeforeTime().getTime() <= time && time < claimsSet.getExpirationTime().getTime();
     }
+
+    public boolean isExpired() {
+        long time = System.currentTimeMillis();
+        return !(claimsSet.getNotBeforeTime().getTime() <= time && time < claimsSet.getExpirationTime().getTime());
+    }
 }
