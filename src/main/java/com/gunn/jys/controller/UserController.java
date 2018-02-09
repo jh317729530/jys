@@ -1,5 +1,6 @@
 package com.gunn.jys.controller;
 
+import com.gunn.jys.annotation.Anon;
 import com.gunn.jys.base.BaseController;
 import com.gunn.jys.bo.InfoResult;
 import com.gunn.jys.bo.JysSubject;
@@ -31,6 +32,7 @@ public class UserController extends BaseController {
         return result;
     }
 
+    @Anon
     @RequestMapping(value = "login",method = RequestMethod.POST)
     public Result login(@NotNull String username, @NotNull String password) {
         InfoResult<String> result = new InfoResult<>();

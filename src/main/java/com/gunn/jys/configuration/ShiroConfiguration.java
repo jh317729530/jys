@@ -1,6 +1,7 @@
 package com.gunn.jys.configuration;
 
 
+import com.gunn.jys.security.SystemAuthority;
 import com.gunn.jys.security.realm.UsernamePasswordRealm;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.realm.Realm;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Configuration
 public class ShiroConfiguration {
@@ -30,10 +32,16 @@ public class ShiroConfiguration {
     }
 
     @Bean
+    public SystemAuthority systemAuthority() {
+        SystemAuthority systemAuthority = new SystemAuthority();
+        return systemAuthority;
+    }
+
+    @Bean
     public ShiroFilterFactoryBean shiroFilter(){
         ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
         shiroFilterFactoryBean.setSecurityManager(securityManager());
-//        shiroFilterFactoryBean.setFilterChainDefinitionMap();
+        shiroFilterFactoryBean.setFilterChainDefinitionMap(systemAuthority().getAllPermission());
 //        shiroFilterFactoryBean.setFilters();
         return shiroFilterFactoryBean;
     }
