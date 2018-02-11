@@ -1,5 +1,8 @@
 package com.gunn.jys.security.filter;
 
+import com.gunn.jys.bo.JysSubject;
+import com.gunn.jys.security.token.JWTAuthenticationToken;
+import com.gunn.jys.util.JsonUtil;
 import com.gunn.jys.util.JwtUtil;
 import com.gunn.jys.util.RequestUtil;
 import org.apache.commons.lang3.StringUtils;
@@ -15,7 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.text.ParseException;
 
-public class PermissionFilter extends PermissionsAuthorizationFilter {
+public class PermissionsFilter extends PermissionsAuthorizationFilter {
 
     @Override
     public boolean isAccessAllowed(ServletRequest servletRequest, ServletResponse servletResponse, Object mappedValue) throws IOException {
@@ -41,9 +44,11 @@ public class PermissionFilter extends PermissionsAuthorizationFilter {
         if (!subject.isAuthenticated()) {
             try {
                 String userId = JwtUtil.getFromToken(token);
-
+                JWTAuthenticationToken jwtAuthenticationToken = new JWTAuthenticationToken(userId, token);
+                subject.login(jwtAuthenticationToken);
             } catch (ParseException e) {
                 e.printStackTrace();
+                return false;
             }
         }
 
@@ -52,7 +57,38 @@ public class PermissionFilter extends PermissionsAuthorizationFilter {
     }
 
     @Override
-    protected boolean onAccessDenied(ServletRequest request, ServletResponse response) throws IOException {
+    protected boolean onAccessDenied(ServletRequest servletRequest, ServletResponse servletResponse) throws IOException {
+        HttpServletRequest request = WebUtils.toHttp(servletRequest);
+        HttpServletResponse response = WebUtils.toHttp(servletResponse);
+
+        String token = RequestUtil.getAuthzHeader(request);
+        // 如果传递的header为空
+        if (StringUtils.isBlank(token)) {
+            JwtUtil.responseUnauthorized4010(request,response);
+            return false;
+        }
+
+        // token不合法
+        if (!JwtUtil.validateToken(token)) {
+            JwtUtil.responseUnauthorized4011(request, response);
+            return false;
+        }
+
+        // token失效
+        if (JwtUtil.isTokenExpired(token)) {
+            JwtUtil.responseUnauthorized4012(request,response);
+            return false;
+        }
+
+        String json = null;
+        try {
+            json = JwtUtil.getFromToken(token);
+            JysSubject jysSubject = JsonUtil.fromJson(json, JysSubject.class);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        JwtUtil.responseUnauthorized401(request, response);
         return super.onAccessDenied(request, response);
     }
 }
