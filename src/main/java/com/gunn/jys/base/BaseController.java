@@ -4,6 +4,7 @@ import com.gunn.jys.bo.JysSubject;
 import com.gunn.jys.constant.RequestConst;
 import com.gunn.jys.util.JsonUtil;
 import com.gunn.jys.util.JwtUtil;
+import com.gunn.jys.util.JysSubjectUtil;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
@@ -37,5 +38,14 @@ public class BaseController {
         Optional<JysSubject> optional = Optional.ofNullable(getJysSubject(request));
         return optional.map(JysSubject::getId).orElse(null);
 
+    }
+
+    /**
+     * 获取前端用户的userId
+     *
+     * @return
+     */
+    public Integer getUserId() {
+        return JysSubjectUtil.getUserId();
     }
 }

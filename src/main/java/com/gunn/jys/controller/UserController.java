@@ -63,6 +63,13 @@ public class UserController extends BaseController {
         return result;
     }
 
+    @RequestMapping("info")
+    public Result info() {
+        InfoResult result = new InfoResult();
+        result.setInfo(userService.selectUserInfoById(getUserId()));
+        return result;
+    }
+
     @RequestMapping("test")
     public Result test(){
         User user = userService.selectByUsername("15603017553");

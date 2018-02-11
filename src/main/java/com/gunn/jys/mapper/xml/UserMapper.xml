@@ -8,13 +8,28 @@
     <result column="salt" jdbcType="VARCHAR" property="salt" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="sex" jdbcType="INTEGER" property="sex" />
+    <result column="avatar" jdbcType="VARCHAR" property="avatar"/>
     <result column="is_admin" jdbcType="INTEGER" property="isAdmin" />
   </resultMap>
+
+  <resultMap id="UserInfo" type="com.gunn.jys.vo.user.UserInfo">
+    <id column="id" jdbcType="INTEGER" property="id"/>
+    <result column="username" jdbcType="VARCHAR" property="username"/>
+    <result column="name" jdbcType="VARCHAR" property="name"/>
+    <result column="sex" jdbcType="INTEGER" property="sex"/>
+    <result column="avatar" jdbcType="VARCHAR" property="avatar"/>
+    <result column="is_admin" jdbcType="INTEGER" property="isAdmin"/>
+  </resultMap>
+
   <sql id="Base_Column_List">
-    id, username, password, salt, name, sex, is_admin
+    id, username, password, salt, name, sex, avatar, is_admin
   </sql>
 
   <select id="selectByUsername" resultMap="BaseResultMap">
     SELECT * FROM t_user WHERE username = #{username}
+  </select>
+
+  <select id="selectUserInfo" resultMap="UserInfo">
+    SELECT * FROM t_user WHERE id = #{id}
   </select>
 </mapper>

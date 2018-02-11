@@ -5,6 +5,7 @@ import com.gunn.jys.entity.User;
 import com.gunn.jys.mapper.UserMapper;
 import com.gunn.jys.service.UserService;
 import com.gunn.jys.util.CryptologyUtil;
+import com.gunn.jys.vo.user.UserInfo;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -23,5 +24,10 @@ public class UserServiceImp extends BaseServiceImpl<UserMapper, User> implements
     @Override
     public User selectByUsername(String username) {
         return dao.selectByUsername(username);
+    }
+
+    @Override
+    public UserInfo selectUserInfoById(Integer id) {
+        return dao.selectUserInfo(id);
     }
 }
