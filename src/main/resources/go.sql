@@ -8,3 +8,7 @@ CREATE TABLE `t_user` (
   `is_admin` int(11) DEFAULT NULL COMMENT '是否管理员 0-否 1-是',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+ALTER TABLE `t_user`
+ADD COLUMN `avatar`  varchar(500) NULL COMMENT '头像url' AFTER `sex`;
+

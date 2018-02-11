@@ -21,6 +21,8 @@ public class User {
 
     private Integer isAdmin;
 
+    private String avatar;
+
     public Integer getId() {
         return id;
     }
@@ -75,5 +77,13 @@ public class User {
 
     public void setIsAdmin(Integer isAdmin) {
         this.isAdmin = isAdmin;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 }
