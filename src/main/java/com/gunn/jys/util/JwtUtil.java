@@ -1,15 +1,21 @@
 package com.gunn.jys.util;
 
+import com.gunn.jys.bo.Result;
+import com.gunn.jys.constant.common.ResultConst;
 import com.gunn.jys.security.verifier.MACVerifierExtended;
 import com.nimbusds.jose.*;
 import com.nimbusds.jose.crypto.MACSigner;
 import com.nimbusds.jwt.JWTClaimsSet;
 import com.nimbusds.jwt.SignedJWT;
+import org.apache.shiro.web.util.WebUtils;
 import org.springframework.stereotype.Component;
 
 import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.JsonReader;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletResponse;
 import java.io.StringReader;
 import java.text.ParseException;
 import java.util.Date;
@@ -110,5 +116,70 @@ public class JwtUtil {
             e.printStackTrace();
         }
         return json;
+    }
+
+    /**
+     * token为空
+     * @param request
+     * @param response
+     */
+    public static void responseUnauthorized4010(ServletRequest request, ServletResponse response) {
+        HttpServletResponse httpResponse = WebUtils.toHttp(response);
+        Result result = new Result();
+        result.setCustomCode(ResultConst.code.UNAUTHORIZED_NO_TOKEN);
+        result.setMsg("token不能为空");
+        ResponseUtil.writeJson(httpResponse, result);
+    }
+
+    /**
+     * 不合法的token（系统无法解析）
+     * @param request
+     * @param response
+     */
+    public static void responseUnauthorized4011(ServletRequest request, ServletResponse response) {
+        HttpServletResponse httpResponse = WebUtils.toHttp(response);
+        Result result = new Result();
+        result.setCustomCode(ResultConst.code.UNAUTHORIZED_INVALID);
+        result.setMsg("token不合法");
+        ResponseUtil.writeJson(httpResponse, result);
+    }
+
+    /**
+     * token已失效
+     * @param request
+     * @param response
+     */
+    public static void responseUnauthorized4012(ServletRequest request, ServletResponse response) {
+        HttpServletResponse httpResponse = WebUtils.toHttp(response);
+        Result result = new Result();
+        result.setCustomCode(ResultConst.code.UNAUTHORIZED_EXPIRED);
+        result.setMsg("token已失效");
+        ResponseUtil.writeJson(httpResponse, result);
+    }
+
+    /**
+     * 当前用户还没有注册
+     * @param request
+     * @param response
+     */
+    public static void responseUnauthorized4013(ServletRequest request, ServletResponse response) {
+        HttpServletResponse httpResponse = WebUtils.toHttp(response);
+        Result result = new Result();
+        result.setCustomCode(ResultConst.code.UNAUTHORIZED_UNREGIST);
+        result.setMsg("当前用户还没有注册");
+        ResponseUtil.writeJson(httpResponse, result);
+    }
+
+    /**
+     * 当前用户权限不足(访问某个资源权限不足)
+     * @param request
+     * @param response
+     */
+    public static void responseUnauthorized401(ServletRequest request, ServletResponse response) {
+        HttpServletResponse httpResponse = WebUtils.toHttp(response);
+        Result result = new Result();
+        result.setCustomCode(ResultConst.code.UNAUTHORIZED);
+        result.setMsg("权限不足");
+        ResponseUtil.writeJson(httpResponse, result);
     }
 }
