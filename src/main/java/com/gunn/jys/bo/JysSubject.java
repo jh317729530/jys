@@ -23,7 +23,7 @@ public class JysSubject {
     }
 
     public String toToken() {
-        return JwtUtil.createToken(username);
+        return JwtUtil.createToken(toJson());
     }
 
     public Integer getId() {
