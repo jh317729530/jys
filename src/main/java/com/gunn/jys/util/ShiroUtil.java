@@ -8,6 +8,9 @@ public class ShiroUtil {
      * @return
      */
     public static String getStringPermission(String url) {
+        if (!url.startsWith("/")) {
+            url = "/" + url;
+        }
         String perms = url.substring(1).replaceAll("/", ":");
         return perms;
     }
