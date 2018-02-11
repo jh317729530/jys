@@ -16,11 +16,19 @@ public class SystemAuthority {
         List<String> permsUrlList = PackageUtil.PERMISSION_MAP.get(ShiroConst.PERMS);
 
         for (String anonUrl : anonUrlList) {
+            if (!anonUrl.startsWith("/")) {
+                anonUrl = "/" + anonUrl;
+            }
             permissionMap.put(anonUrl, ShiroConst.ANON);
         }
 
         permsUrlList.stream().filter(url -> !anonUrlList.contains(url))
-                .forEach(url -> permissionMap.put(url, "perms[" + ShiroUtil.getStringPermission(url) + "]"));
+                .forEach(url -> {
+                    if (!url.startsWith("/")) {
+                        url = "/" + url;
+                    }
+                    permissionMap.put(url, "perms[" + ShiroUtil.getStringPermission(url) + "]");
+                });
 
         return permissionMap;
     }
