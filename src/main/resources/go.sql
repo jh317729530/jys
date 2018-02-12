@@ -26,4 +26,7 @@ CREATE TABLE `t_teacher` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+ALTER TABLE `t_teacher`
+ADD COLUMN `work_number`  varchar(50) NULL COMMENT '工号' AFTER `user_id`;
+
 

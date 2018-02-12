@@ -13,6 +13,8 @@ public class Teacher {
 
     private Integer userId;
 
+    private String workNumber;
+
     private String name;
 
     private Integer sex;
@@ -20,6 +22,14 @@ public class Teacher {
     private Integer age;
 
     private Integer isDirector;
+
+    public String getWorkNumber() {
+        return workNumber;
+    }
+
+    public void setWorkNumber(String workNumber) {
+        this.workNumber = workNumber;
+    }
 
     public Integer getId() {
         return id;
