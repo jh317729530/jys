@@ -15,10 +15,6 @@ public class User {
 
     private String salt;
 
-    private String name;
-
-    private Integer sex;
-
     private Integer isAdmin;
 
     private String avatar;
@@ -53,22 +49,6 @@ public class User {
 
     public void setSalt(String salt) {
         this.salt = salt == null ? null : salt.trim();
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name == null ? null : name.trim();
-    }
-
-    public Integer getSex() {
-        return sex;
-    }
-
-    public void setSex(Integer sex) {
-        this.sex = sex;
     }
 
     public Integer getIsAdmin() {
