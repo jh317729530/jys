@@ -13,4 +13,8 @@
   <sql id="Base_Column_List" >
     id, user_id, name, sex, age, is_director
   </sql>
+
+  <select id="findPageBy" resultMap="BaseResultMap">
+    SELECT * FROM t_teacher
+  </select>
 </mapper>
