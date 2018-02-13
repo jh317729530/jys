@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.gunn.jys.mapper.PermisMapper" >
+  <resultMap id="BaseResultMap" type="com.gunn.jys.entity.Permis" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="permis_name" property="permisName" jdbcType="VARCHAR" />
+    <result column="permis_desc" property="permisDesc" jdbcType="VARCHAR" />
+    <result column="permis_module_id" property="permisModuleId" jdbcType="INTEGER" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, permis_name, permis_desc, permis_module_id, create_date
+  </sql>
+
+</mapper>
