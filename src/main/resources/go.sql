@@ -29,4 +29,66 @@ CREATE TABLE `t_teacher` (
 ALTER TABLE `t_teacher`
 ADD COLUMN `work_number`  varchar(50) NULL COMMENT '工号' AFTER `user_id`;
 
+CREATE TABLE `t_role` (
+  `id` int(11) NOT NULL,
+  `role_name` varchar(32) DEFAULT NULL COMMENT '角色名称',
+  `role_desc` varchar(128) DEFAULT NULL COMMENT '角色描述',
+  `create_date` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `t_user_role` (
+`id`  int(11) NOT NULL ,
+`user_id`  int(11) NULL COMMENT '用户id' ,
+`role_id`  int(11) NULL COMMENT '角色id' ,
+`create_date`  datetime NULL ON UPDATE CURRENT_TIMESTAMP ,
+PRIMARY KEY (`id`)
+);
+
+CREATE TABLE `t_permis` (
+  `id` int(11) NOT NULL,
+  `permis_name` varchar(64) DEFAULT NULL COMMENT '权限名称',
+  `permis_desc` varchar(255) DEFAULT NULL COMMENT '权限描述',
+  `permis_module_id` int(11) DEFAULT NULL,
+  `create_date` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `t_role_permis` (
+  `id` int(11) NOT NULL,
+  `role_id` int(11) DEFAULT NULL,
+  `permis_id` int(11) DEFAULT NULL,
+  `create_date` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `t_resource` (
+  `id` int(11) NOT NULL,
+  `url` varchar(64) DEFAULT NULL,
+  `name` varchar(63) DEFAULT NULL,
+  `create_date` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `t_permis_resource` (
+  `id` int(11) NOT NULL,
+  `permis_id` int(11) DEFAULT NULL COMMENT '权限id',
+  `resource_id` int(11) DEFAULT NULL COMMENT '接口id',
+  `create_date` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `t_permis_module` (
+  `id` int(11) NOT NULL,
+  `module_name` varchar(32) DEFAULT NULL COMMENT '模块名称',
+  `create_date` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+
+
+
+
+
 
