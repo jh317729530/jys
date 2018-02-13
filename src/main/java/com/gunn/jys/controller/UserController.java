@@ -6,7 +6,9 @@ import com.gunn.jys.bo.InfoResult;
 import com.gunn.jys.bo.JysSubject;
 import com.gunn.jys.bo.Result;
 import com.gunn.jys.entity.User;
+import com.gunn.jys.service.ResourceService;
 import com.gunn.jys.service.UserService;
+import com.gunn.jys.vo.user.UserResourceVo;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 @RestController
 @RequestMapping("user")
@@ -24,6 +27,9 @@ public class UserController extends BaseController {
 
     @Resource
     private UserService userService;
+
+    @Resource
+    private ResourceService resourceService;
 
     @RequestMapping(value = "add",method = RequestMethod.POST)
     public Result add(@NotNull String username, @NotNull String password) {
@@ -78,4 +84,11 @@ public class UserController extends BaseController {
         return result;
     }
 
+    @RequestMapping("getResource")
+    public Result getResource() {
+        InfoResult<List<UserResourceVo>> result = new InfoResult<>();
+        List<UserResourceVo> userResourceVos = resourceService.getByUserId(getUserId());
+        result.setInfo(userResourceVos);
+        return result;
+    }
 }

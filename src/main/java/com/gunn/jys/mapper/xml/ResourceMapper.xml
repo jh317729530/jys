@@ -7,8 +7,29 @@
     <result column="name" property="name" jdbcType="VARCHAR" />
     <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
   </resultMap>
+
+  <resultMap id="UserResourceVo" type="com.gunn.jys.vo.user.UserResourceVo">
+    <id column="id" property="id" jdbcType="INTEGER"/>
+    <result column="url" property="url" jdbcType="VARCHAR"/>
+  </resultMap>
+
   <sql id="Base_Column_List" >
     id, url, name, create_date
   </sql>
 
+  <select id="findAll" resultMap="UserResourceVo">
+    SELECT * FROM t_resource
+  </select>
+
+  <select id="findByUserId" resultMap="UserResourceVo">
+    SELECT re.id,re.url
+    FROM t_user u
+    JOIN t_user_role ur ON u.id = ur.user_id
+    JOIN t_role r ON ur.role_id = r.id
+    JOIN t_role_permis rp ON rp.role_id = r.id
+    JOIN t_permis p ON rp.permis_id = p.id
+    JOIN t_permis_resource pr ON pr.permis_id = p.id
+    JOIN t_resource re ON pr.resource_id = re.id
+    WHERE u.id = #{userId}
+  </select>
 </mapper>
