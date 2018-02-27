@@ -107,11 +107,13 @@ ALTER TABLE `t_user_role`
 MODIFY COLUMN `id`  int(11) NOT NULL AUTO_INCREMENT FIRST ;
 
 
-
-
-
-
-
+CREATE TABLE `t_academic` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `president_id` int(11) DEFAULT NULL COMMENT '院长id',
+  `academic_name` varchar(255) DEFAULT NULL COMMENT '学院名字',
+  `academic_description` varchar(255) DEFAULT NULL COMMENT '学院描述',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
 
