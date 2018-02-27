@@ -10,4 +10,13 @@
   <sql id="Base_Column_List" >
     id, president_id, academic_name, academic_description
   </sql>
+
+  <select id="findPageByName" resultMap="BaseResultMap">
+    SELECT * FROM t_academic
+    <where>
+      <if test="name != null">
+        AND academic_name LIKE CONCAT('%',#{name},'%')
+      </if>
+    </where>
+  </select>
 </mapper>
