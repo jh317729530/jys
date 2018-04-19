@@ -5,7 +5,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import java.util.Date;
 
-@Table(name ="t_role")
+@Table(name ="t_user_role")
 public class UserRole {
 
     @Id

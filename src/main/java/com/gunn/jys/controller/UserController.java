@@ -4,9 +4,14 @@ import com.gunn.jys.annotation.Anon;
 import com.gunn.jys.base.BaseController;
 import com.gunn.jys.bo.InfoResult;
 import com.gunn.jys.bo.JysSubject;
+import com.gunn.jys.bo.MapResult;
 import com.gunn.jys.bo.Result;
+import com.gunn.jys.entity.Teacher;
 import com.gunn.jys.entity.User;
+import com.gunn.jys.entity.UserRole;
+import com.gunn.jys.mapper.UserRoleMapper;
 import com.gunn.jys.service.ResourceService;
+import com.gunn.jys.service.TeacherService;
 import com.gunn.jys.service.UserService;
 import com.gunn.jys.vo.user.UserResourceVo;
 import org.apache.shiro.SecurityUtils;
@@ -30,6 +35,12 @@ public class UserController extends BaseController {
 
     @Resource
     private ResourceService resourceService;
+
+    @Resource
+    private TeacherService teacherService;
+
+    @Resource
+    private UserRoleMapper userRoleMapper;
 
     @RequestMapping(value = "add",method = RequestMethod.POST)
     public Result add(@NotNull String username, @NotNull String password) {
@@ -69,11 +80,21 @@ public class UserController extends BaseController {
         return result;
     }
 
-    @RequestMapping("info")
-    public Result info() {
-        InfoResult result = new InfoResult();
-        result.setInfo(userService.selectUserInfoById(getUserId()));
-        return result;
+    @RequestMapping("baseInfo")
+    public Result baseInfo() {
+        MapResult mapResult = new MapResult();
+        User user = userService.selectByPrimaryKey(getUserId());
+        Teacher query = new Teacher();
+        query.setUserId(getUserId());
+        List<Teacher> select = teacherService.select(query);
+        Teacher teacher = select.get(0);
+        UserRole userRoleQuery = new UserRole();
+        userRoleQuery.setUserId(getUserId());
+        UserRole userRole = userRoleMapper.selectOne(userRoleQuery);
+        mapResult.getInfo().put("name", teacher.getName());
+        mapResult.getInfo().put("role", userRole.getRoleId());
+        mapResult.getInfo().put("avatar", user.getAvatar());
+        return mapResult;
     }
 
     @RequestMapping("test")
