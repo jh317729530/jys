@@ -61,6 +61,11 @@ public class UserController extends BaseController {
                 return result;
             }
 
+            if (0 == user.getStatus()) {
+                result.setInvalidMsg("账号已经停用");
+                return result;
+            }
+
             JysSubject jysSubject = new JysSubject(user.getId(), username, user.getIsAdmin());
             String json = jysSubject.toJson();
             log.info("admin login in info is[" + json + "]");

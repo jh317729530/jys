@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.gunn.jys.mapper.UserPermisMapper" >
+  <resultMap id="BaseResultMap" type="com.gunn.jys.entity.UserPermis" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="permis_id" property="permisId" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, user_id, permis_id
+  </sql>
+
+  <resultMap id="PermisVo" type="com.gunn.jys.vo.permis.PermisVo">
+    <id  column="id" property="id" jdbcType="INTEGER"/>
+    <result column="permis_name" property="name" jdbcType="VARCHAR"/>
+    <result column="parent_id" property="parentId" jdbcType="INTEGER"/>
+    <result column="has_permis" property="hasPermis" jdbcType="VARCHAR"/>
+  </resultMap>
+
+  <select id="findPermisVoByUserId" resultMap="PermisVo">
+    SELECT p.*,CASE WHEN up.user_id IS NULL THEN 0 ELSE 1 END has_permis
+  FROM t_permis p LEFT JOIN t_user_permis up ON up.permis_id = p.id AND up.user_id = #{userId}
+
+  </select>
+
+</mapper>
