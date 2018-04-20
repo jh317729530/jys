@@ -40,6 +40,7 @@ public class PermisServiceImpl extends BaseServiceImpl<PermisMapper,Permis> impl
         parentPermisList.forEach(permisVo -> {
             parentPermisNodeList.add(new PermisVoNode(permisVo.getName(), permisVo.getId(), permisVo.getName(), permisVo.getHasPermis()));
         });
+        root.setDisabledChildren(parentPermisNodeList);
 
         parentPermisNodeList.forEach(permisVoNode -> {
             List<PermisVo> subPermisVoList = permisVos.stream().filter(permisVo -> permisVo.getParentId().equals(permisVoNode.getPermisId())).collect(Collectors.toList());
@@ -50,8 +51,24 @@ public class PermisServiceImpl extends BaseServiceImpl<PermisMapper,Permis> impl
             permisVoNode.setChildren(subPermisVoNodeList);
         });
 
-        root.setDisabledChildren(parentPermisNodeList);
 
+        List<PermisVo> teachTaskPermisList = permisVos.stream().filter(permisVo -> permisVo.getParentId().equals(3)).collect(Collectors.toList());
+        List<PermisVoNode> teachTaskPermisNodeList = new ArrayList<>();
+        teachTaskPermisList.forEach(permisVo -> {
+            teachTaskPermisNodeList.add(new PermisVoNode(permisVo.getName(), permisVo.getId(), permisVo.getName(), permisVo.getHasPermis()));
+        });
+        Node teachTaskNode = parentPermisNodeList.stream().filter(permisVoNode -> permisVoNode.getPermisId().equals(2)).findFirst().get().getChildren().stream().filter(permisNode -> "教学任务".equals(permisNode.getName())).findFirst().get();
+        teachTaskNode.setChildren(teachTaskPermisNodeList);
+
+//        List<PermisVo> parentPermisList = permisVos.stream().filter(permisVo -> permisVo.getParentId().equals(0)).collect(Collectors.toList());
+//        List<PermisVoNode> parentPermisNodeList = new ArrayList<>();
+//        parentPermisList.forEach(permisVo -> {
+//            parentPermisNodeList.add(new PermisVoNode(permisVo.getName(), permisVo.getId(), permisVo.getName(), permisVo.getHasPermis()));
+//        });
+//
+//
+//        root.setDisabledChildren(parentPermisNodeList);
+//
         List<Integer> checkPermisIds = null;
         User user = userService.selectByPrimaryKey(userId);
         if (1 == user.getIsAdmin()) {
@@ -59,7 +76,7 @@ public class PermisServiceImpl extends BaseServiceImpl<PermisMapper,Permis> impl
         } else {
             checkPermisIds = permisVos.stream().filter(permisVo -> permisVo.getHasPermis().equals(1)).map(permisVo -> permisVo.getId()).collect(Collectors.toList());
         }
-
+//
         PermisNodeVo permisNodeVo = new PermisNodeVo();
         permisNodeVo.setRoot(root);
         permisNodeVo.setCheckPermisIds(checkPermisIds);

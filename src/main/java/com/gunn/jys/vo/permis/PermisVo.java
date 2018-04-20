@@ -8,6 +8,8 @@ public class PermisVo {
 
     private Integer parentId;
 
+    private Integer hasChild;
+
     private Integer hasPermis;
 
     public Integer getId() {
@@ -40,5 +42,13 @@ public class PermisVo {
 
     public void setParentId(Integer parentId) {
         this.parentId = parentId;
+    }
+
+    public Integer getHasChild() {
+        return hasChild;
+    }
+
+    public void setHasChild(Integer hasChild) {
+        this.hasChild = hasChild;
     }
 }

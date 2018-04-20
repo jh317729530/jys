@@ -14,9 +14,11 @@ public class Permis {
 
     private String permisName;
 
-    private String permisDesc;
+    private Integer parentId;
 
-    private Integer permisModuleId;
+    private String permisUrl;
+
+    private Integer hasChild;
 
     private Date createDate;
 
@@ -36,20 +38,28 @@ public class Permis {
         this.permisName = permisName == null ? null : permisName.trim();
     }
 
-    public String getPermisDesc() {
-        return permisDesc;
+    public Integer getParentId() {
+        return parentId;
     }
 
-    public void setPermisDesc(String permisDesc) {
-        this.permisDesc = permisDesc == null ? null : permisDesc.trim();
+    public void setParentId(Integer parentId) {
+        this.parentId = parentId;
     }
 
-    public Integer getPermisModuleId() {
-        return permisModuleId;
+    public String getPermisUrl() {
+        return permisUrl;
     }
 
-    public void setPermisModuleId(Integer permisModuleId) {
-        this.permisModuleId = permisModuleId;
+    public void setPermisUrl(String permisUrl) {
+        this.permisUrl = permisUrl;
+    }
+
+    public Integer getHasChild() {
+        return hasChild;
+    }
+
+    public void setHasChild(Integer hasChild) {
+        this.hasChild = hasChild;
     }
 
     public Date getCreateDate() {
