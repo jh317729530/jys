@@ -9,6 +9,7 @@
     <result column="sex" property="sex" jdbcType="INTEGER" />
     <result column="age" property="age" jdbcType="INTEGER" />
     <result column="is_director" property="isDirector" jdbcType="INTEGER" />
+    <result column="created" property="created" jdbcType="TIMESTAMP"/>
   </resultMap>
   <sql id="Base_Column_List" >
     id, user_id, name, sex, age, is_director

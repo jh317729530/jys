@@ -3,6 +3,7 @@ package com.gunn.jys.entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.util.Date;
 
 @Table(name = "t_teacher")
 public class Teacher {
@@ -22,6 +23,8 @@ public class Teacher {
     private Integer age;
 
     private Integer isDirector;
+
+    private Date created;
 
     public String getWorkNumber() {
         return workNumber;
@@ -77,5 +80,13 @@ public class Teacher {
 
     public void setIsDirector(Integer isDirector) {
         this.isDirector = isDirector;
+    }
+
+    public Date getCreated() {
+        return created;
+    }
+
+    public void setCreated(Date created) {
+        this.created = created;
     }
 }
