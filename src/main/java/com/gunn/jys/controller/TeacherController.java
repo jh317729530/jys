@@ -49,7 +49,10 @@ public class TeacherController extends BaseController {
     }
 
     @RequestMapping("getPermis")
-    public Result getPermis(@RequestParam Integer id) {
+    public Result getPermis(Integer id) {
+        if (null == id) {
+            id = getUserId();
+        }
         InfoResult<PermisNodeVo> result = new InfoResult<>();
         result.setInfo(permisService.findPermisByUserId(id));
         return result;

@@ -99,6 +99,7 @@ public class UserController extends BaseController {
         mapResult.getInfo().put("name", teacher.getName());
         mapResult.getInfo().put("role", userRole.getRoleId());
         mapResult.getInfo().put("avatar", user.getAvatar());
+        mapResult.getInfo().put("userId", getUserId());
         return mapResult;
     }
 

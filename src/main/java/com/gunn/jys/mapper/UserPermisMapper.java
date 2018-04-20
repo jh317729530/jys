@@ -13,4 +13,6 @@ public interface UserPermisMapper extends BaseMapper<UserPermis> {
     List<PermisVo> findPermisVoByUserId(@Param("userId") Integer userId);
 
     int insertBatch(@Param("userPermisList") List<UserPermis> userPermisList);
+
+    List<Permis> findPermisByUserId(@Param("userId") Integer userId);
 }

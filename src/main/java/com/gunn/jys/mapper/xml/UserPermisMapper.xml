@@ -15,7 +15,15 @@
     <result column="permis_name" property="name" jdbcType="VARCHAR"/>
     <result column="parent_id" property="parentId" jdbcType="INTEGER"/>
     <result column="has_child" property="hasChild" jdbcType="INTEGER"/>
+    <result column="permis_url" property="permisUrl" jdbcType="VARCHAR"/>
     <result column="has_permis" property="hasPermis" jdbcType="VARCHAR"/>
+  </resultMap>
+
+  <resultMap id="Permis" type="com.gunn.jys.entity.Permis" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="permis_name" property="permisName" jdbcType="VARCHAR" />
+    <result column="permis_url" property="permisUrl" jdbcType="VARCHAR"/>
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
   </resultMap>
 
   <select id="findPermisVoByUserId" resultMap="PermisVo">
@@ -30,5 +38,9 @@
       (#{userPermis.userId},#{userPermis.permisId})
     </foreach>
   </insert>
+
+  <select id="findPermisByUserId" resultMap="Permis">
+    SELECT  p.* FROM t_user_permis up JOIN t_permis p ON up.permis_id = p.id WHERE up.user_id = #{userId}
+  </select>
 
 </mapper>

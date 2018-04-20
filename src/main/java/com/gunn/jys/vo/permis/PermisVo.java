@@ -10,6 +10,8 @@ public class PermisVo {
 
     private Integer hasChild;
 
+    private String permisUrl;
+
     private Integer hasPermis;
 
     public Integer getId() {
@@ -50,5 +52,13 @@ public class PermisVo {
 
     public void setHasChild(Integer hasChild) {
         this.hasChild = hasChild;
+    }
+
+    public String getPermisUrl() {
+        return permisUrl;
+    }
+
+    public void setPermisUrl(String permisUrl) {
+        this.permisUrl = permisUrl;
     }
 }

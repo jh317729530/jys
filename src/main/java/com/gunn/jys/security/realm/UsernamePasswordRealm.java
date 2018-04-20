@@ -49,11 +49,9 @@ public class UsernamePasswordRealm extends AuthorizingRealm {
         Integer userId = jysSubject.getId();
         User user = userMapper.selectByPrimaryKey(userId);
         Integer isAdmin = user.getIsAdmin();
-        if (UserConst.IsAdmin.IS_ADMIN == isAdmin) {
             List<String> urlList = PackageUtil.PERMISSION_MAP.get(ShiroConst.PERMS);
             for (String url : urlList) {
                 info.addStringPermission(ShiroUtil.getStringPermission(url));
-            }
         }
         return info;
     }
