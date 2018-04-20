@@ -2,15 +2,19 @@ package com.gunn.jys.service.impl;
 
 import com.gunn.jys.base.impl.BaseServiceImpl;
 import com.gunn.jys.entity.Permis;
+import com.gunn.jys.entity.User;
+import com.gunn.jys.entity.UserPermis;
 import com.gunn.jys.mapper.PermisMapper;
 import com.gunn.jys.mapper.UserPermisMapper;
 import com.gunn.jys.service.PermisService;
+import com.gunn.jys.service.UserService;
 import com.gunn.jys.vo.node.DisabledNode;
 import com.gunn.jys.vo.node.Node;
 import com.gunn.jys.vo.node.PermisVoNode;
 import com.gunn.jys.vo.permis.PermisNodeVo;
 import com.gunn.jys.vo.permis.PermisVo;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
@@ -22,6 +26,9 @@ public class PermisServiceImpl extends BaseServiceImpl<PermisMapper,Permis> impl
 
     @Resource
     private UserPermisMapper userPermisMapper;
+
+    @Resource
+    private UserService userService;
 
     @Override
     public PermisNodeVo findPermisByUserId(Integer userId) {
@@ -45,11 +52,35 @@ public class PermisServiceImpl extends BaseServiceImpl<PermisMapper,Permis> impl
 
         root.setDisabledChildren(parentPermisNodeList);
 
-        List<Integer> checkPermisIds = permisVos.stream().filter(permisVo -> permisVo.getHasPermis().equals(1)).map(permisVo -> permisVo.getId()).collect(Collectors.toList());
+        List<Integer> checkPermisIds = null;
+        User user = userService.selectByPrimaryKey(userId);
+        if (1 == user.getIsAdmin()) {
+            checkPermisIds = permisVos.stream().map(permisVo -> permisVo.getId()).collect(Collectors.toList());
+        } else {
+            checkPermisIds = permisVos.stream().filter(permisVo -> permisVo.getHasPermis().equals(1)).map(permisVo -> permisVo.getId()).collect(Collectors.toList());
+        }
 
         PermisNodeVo permisNodeVo = new PermisNodeVo();
         permisNodeVo.setRoot(root);
         permisNodeVo.setCheckPermisIds(checkPermisIds);
         return permisNodeVo;
+    }
+
+    @Override
+    @Transactional
+    public int updatePermis(Integer userId, List<Integer> permisIds) {
+        UserPermis deleteQuery = new UserPermis();
+        deleteQuery.setUserId(userId);
+        userPermisMapper.delete(deleteQuery);
+
+        List<UserPermis> userPermisList = new ArrayList<>();
+        permisIds.forEach(permisId -> {
+            UserPermis userPermis = new UserPermis();
+            userPermis.setUserId(userId);
+            userPermis.setPermisId(permisId);
+            userPermisList.add(userPermis);
+        });
+
+        return userPermisMapper.insertBatch(userPermisList);
     }
 }

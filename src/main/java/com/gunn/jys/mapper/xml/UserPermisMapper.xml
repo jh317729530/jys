@@ -23,4 +23,11 @@
 
   </select>
 
+  <insert id="insertBatch">
+    INSERT INTO t_user_permis (user_id,permis_id) VALUES
+    <foreach collection="userPermisList" item="userPermis" separator=",">
+      (#{userPermis.userId},#{userPermis.permisId})
+    </foreach>
+  </insert>
+
 </mapper>
