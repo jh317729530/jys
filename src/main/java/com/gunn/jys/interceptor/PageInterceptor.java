@@ -24,7 +24,7 @@ public class PageInterceptor extends BaseInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         if (isNeedToPage(handler)) {
-            PageContext.setPageNumber(getPageNo(request));
+            PageContext.setPageNumber(getPageNum(request));
             PageContext.setPageSize(getPageSize(request));
             PageContext.setCancel(false);
         } else {
@@ -73,10 +73,10 @@ public class PageInterceptor extends BaseInterceptor {
      * @param request
      * @return
      */
-    protected Integer getPageNo(HttpServletRequest request) {
-        Integer pageNo = PageContext.PAGE_NO;
+    protected Integer getPageNum(HttpServletRequest request) {
+        Integer pageNo = PageContext.PAGE_NUM;
         try {
-            String pg = request.getParameter(PageConst.PAGE_NO);
+            String pg = request.getParameter(PageConst.PAGE_NUM);
             if (StringUtils.isNotBlank(pg)) {
                 pageNo =Integer.parseInt(pg);
             }

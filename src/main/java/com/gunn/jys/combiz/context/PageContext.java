@@ -11,7 +11,7 @@ public class PageContext {
 
     private static final ThreadLocal<Boolean> CANCEL_LOCAL = new ThreadLocal<>();
 
-    public static Integer PAGE_NO = 1;
+    public static Integer PAGE_NUM = 1;
 
     public static Integer PAGE_SIZE = 10;
 
@@ -33,7 +33,7 @@ public class PageContext {
    */
     public static Integer getPageNumber() {
         Integer pageNumber = PAGE_NO_THREAD_LOCAL.get();
-        return Optional.ofNullable(pageNumber).orElse(PAGE_NO);
+        return Optional.ofNullable(pageNumber).orElse(PAGE_NUM);
     }
 
     /**

@@ -10,5 +10,5 @@ public interface   PageConst {
     /**
      * 页码
      */
-    String PAGE_NO = "pageNo";
+    String PAGE_NUM = "pageNum";
 }
