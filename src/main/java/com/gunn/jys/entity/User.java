@@ -19,6 +19,8 @@ public class User {
 
     private String avatar;
 
+    private Integer status;
+
     public Integer getId() {
         return id;
     }
@@ -65,5 +67,13 @@ public class User {
 
     public void setAvatar(String avatar) {
         this.avatar = avatar;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
     }
 }

@@ -14,7 +14,16 @@
     id, user_id, name, sex, age, is_director
   </sql>
 
-  <select id="findPageBy" resultMap="BaseResultMap">
-    SELECT * FROM t_teacher
+  <resultMap id="TeacherUserVo" type="com.gunn.jys.vo.teacher.TeacherUserVo" extends="BaseResultMap">
+     <result column="user_status" property="userStatus" jdbcType="INTEGER"/>
+  </resultMap>
+
+  <select id="findPageBy" resultMap="TeacherUserVo">
+    SELECT t.*,u.status AS user_status FROM t_teacher t JOIN t_user u ON t.user_id = u.id
+    <where>
+      <if test="name != null">
+        AND t.name LIKE CONCAT('%',#{name},'%')
+      </if>
+    </where>
   </select>
 </mapper>

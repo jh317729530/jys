@@ -10,6 +10,7 @@
     <result column="sex" jdbcType="INTEGER" property="sex" />
     <result column="avatar" jdbcType="VARCHAR" property="avatar"/>
     <result column="is_admin" jdbcType="INTEGER" property="isAdmin" />
+    <result column="status" jdbcType="INTEGER" property="status"/>
   </resultMap>
 
   <resultMap id="UserInfo" type="com.gunn.jys.vo.user.UserInfo">
