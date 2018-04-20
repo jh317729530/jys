@@ -45,7 +45,7 @@ public class JwtUtil {
                     subject(userId.toString()). //jwt所面向的用户
                     issueTime(new Date()). //jwt签发时间
                     notBeforeTime(new Date()). //在定义时间之前该jwt都不可用
-                    expirationTime(DateUtils.addMinutes(new Date(), 30)). //token过期时间
+                    expirationTime(DateUtils.addDays(new Date(),1 )). //token过期时间
                     jwtID(UUID.randomUUID().toString());
 
             JWTClaimsSet claimsSet = builder.build();
