@@ -40,15 +40,18 @@ public class TaskServiceImpl extends BaseServiceImpl<TaskMapper, Task> implement
             taskNotices.add(taskNotice);
         });
         taskNoticeMapper.insertBatch(taskNotices);
-        List<TaskFile> taskFiles = new ArrayList<>();
-        fileUrls.forEach(fileUrl -> {
-            TaskFile taskFile = new TaskFile();
-            taskFile.setFileUrl(fileUrl);
-            taskFile.setTaskId(task.getId());
-            taskFile.setCreated(now);
-            taskFiles.add(taskFile);
-        });
-        taskFileMapper.insertBatch(taskFiles);
+
+        if (null != fileUrls && 0 != fileUrls.size()) {
+            List<TaskFile> taskFiles = new ArrayList<>();
+            fileUrls.forEach(fileUrl -> {
+                TaskFile taskFile = new TaskFile();
+                taskFile.setFileUrl(fileUrl);
+                taskFile.setTaskId(task.getId());
+                taskFile.setCreated(now);
+                taskFiles.add(taskFile);
+            });
+            taskFileMapper.insertBatch(taskFiles);
+        }
 
         return 1;
     }
