@@ -6,8 +6,12 @@ import com.gunn.jys.entity.Teacher;
 import com.gunn.jys.vo.teacher.TeacherUserVo;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+
 public interface TeacherMapper extends BaseMapper<Teacher> {
 
-    Page<TeacherUserVo> findPageBy(@Param("name") String name);
+    Page<TeacherUserVo> findPageBy(@Param("name") String name,@Param("status") Integer status);
+
+    List<Teacher> findList(@Param("status") Integer status);
 
 }

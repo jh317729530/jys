@@ -25,6 +25,13 @@
       <if test="name != null">
         AND t.name LIKE CONCAT('%',#{name},'%')
       </if>
+      <if test="status != null">
+        AND u.status = #{status}
+      </if>
     </where>
+  </select>
+
+  <select id="findList" resultMap="BaseResultMap">
+    SELECT t.* FROM t_teacher t JOIN t_user u ON t.user_id = u.id WHERE u.status = #{status}
   </select>
 </mapper>

@@ -32,11 +32,18 @@ public class TeacherController extends BaseController {
     @Resource
     private PermisService permisService;
 
-    @RequestMapping("list")
+    @RequestMapping("page")
     @Pagination
-    public Result list(String name) {
+    public Result page(String name,Integer status) {
         InfoResult<Page<TeacherUserVo>> result = new InfoResult<>();
-        result.setInfo(teacherService.findList(name));
+        result.setInfo(teacherService.findPage(name,status));
+        return result;
+    }
+
+    @RequestMapping("/list")
+    public Result list(Integer status) {
+        InfoResult result = new InfoResult();
+        result.setInfo(teacherService.findList(status));
         return result;
     }
 
