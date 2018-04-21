@@ -11,4 +11,12 @@
     id, task_id, teacher_id, created
   </sql>
 
+  <insert id="insertBatch">
+    INSERT INTO t_task_notice (task_id, teacher_id, created) VALUES
+    <foreach collection="taskNotices" item="taskNotice" separator=",">
+      (
+        #{taskNotice.taskId},#{taskNotice.teacherId},#{taskNotice.created}
+      )
+    </foreach>
+  </insert>
 </mapper>

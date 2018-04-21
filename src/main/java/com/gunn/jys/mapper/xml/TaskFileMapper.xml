@@ -10,4 +10,13 @@
   <sql id="Base_Column_List" >
     id, task_id, file_url, created
   </sql>
+
+  <insert id="insertBatch">
+    INSERT INTO t_task_file (task_id, file_url, created) VALUES
+    <foreach collection="taskFiles" item="taskFile" separator=",">
+      (
+        #{taskFile.taskId},#{taskFile.fileUrl},#{taskFile.created}
+      )
+    </foreach>
+  </insert>
 </mapper>
