@@ -5,6 +5,7 @@
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="title" property="title" jdbcType="VARCHAR" />
     <result column="short_content" property="shortContent" jdbcType="VARCHAR" />
+    <result column="release_time" property="releaseTime" jdbcType="TIMESTAMP"/>
     <result column="created" property="created" jdbcType="TIMESTAMP" />
   </resultMap>
   <resultMap id="ResultMapWithBLOBs" type="com.gunn.jys.entity.Task" extends="BaseResultMap" >

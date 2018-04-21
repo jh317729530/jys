@@ -16,6 +16,8 @@ public class Task {
 
     private String shortContent;
 
+    private Date releaseTime;
+
     private Date created;
 
     private String content;
@@ -58,5 +60,13 @@ public class Task {
 
     public void setContent(String content) {
         this.content = content == null ? null : content.trim();
+    }
+
+    public Date getReleaseTime() {
+        return releaseTime;
+    }
+
+    public void setReleaseTime(Date releaseTime) {
+        this.releaseTime = releaseTime;
     }
 }
