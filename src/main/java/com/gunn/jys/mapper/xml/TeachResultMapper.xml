@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.gunn.jys.mapper.TeachResultMapper" >
+  <resultMap id="BaseResultMap" type="com.gunn.jys.entity.TeachResult" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="teacher_id" property="teacherId" jdbcType="INTEGER" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="file_url" property="fileUrl" jdbcType="VARCHAR" />
+    <result column="download_count" property="downloadCount" jdbcType="INTEGER" />
+    <result column="created" property="created" jdbcType="TIMESTAMP" />
+  </resultMap>
+
+  <resultMap id="TeachResultVo" type="com.gunn.jys.vo.teachResult.TeachResultVo" extends="BaseResultMap">
+    <result column="teacher_name" property="teacherName" jdbcType="VARCHAR"/>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, teacher_id, title, file_url, download_count, created
+  </sql>
+
+  <select id="findPageBy" resultMap="TeachResultVo">
+    SELECT tr.*,t.name AS teacher_name FROM t_teach_result tr JOIN t_teacher t ON tr.teacher_id = t.id
+    <where>
+      <if test="title != null">
+        AND tr.title LIKE CONCAT('%',#{title},'%')
+      </if>
+    </where>
+  </select>
+</mapper>

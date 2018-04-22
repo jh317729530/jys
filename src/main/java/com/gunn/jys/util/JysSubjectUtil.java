@@ -37,4 +37,8 @@ public class JysSubjectUtil {
     public static Integer getUserId() {
         return Optional.ofNullable(getSoSubject())
                 .map(JysSubject::getId).orElse(null); }
+
+    public static Integer getTeacherId() {
+        return Optional.ofNullable(getSoSubject())
+                .map(JysSubject::getTeacherId).orElse(null); }
 }

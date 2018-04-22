@@ -18,6 +18,7 @@ public class JysSubject {
         this.id = id;
         this.username = username;
         this.isAdmin = isAdmin;
+        this.teacherId = teacherId;
     }
 
     public String toJson() {

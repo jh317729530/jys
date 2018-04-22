@@ -53,4 +53,8 @@ public class BaseController {
     public Integer getUserId() {
         return JysSubjectUtil.getUserId();
     }
+
+    public Integer getTeacherId() {
+        return JysSubjectUtil.getTeacherId();
+    }
 }
