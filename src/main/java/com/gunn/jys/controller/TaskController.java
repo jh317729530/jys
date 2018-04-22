@@ -59,4 +59,12 @@ public class TaskController extends BaseController {
         result.setInfo(taskService.findTaskStatisticsVo(taskId));
         return result;
     }
+
+    @RequestMapping("endTask")
+    public Result endTask(Integer taskId) {
+        Task task = taskService.selectByPrimaryKey(taskId);
+        task.setStatus(2);
+        taskService.updateByPrimaryKey(task);
+        return new Result();
+    }
 }
