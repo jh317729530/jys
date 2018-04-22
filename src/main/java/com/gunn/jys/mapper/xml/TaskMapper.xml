@@ -6,10 +6,16 @@
     <result column="title" property="title" jdbcType="VARCHAR" />
     <result column="short_content" property="shortContent" jdbcType="VARCHAR" />
     <result column="release_time" property="releaseTime" jdbcType="TIMESTAMP"/>
+    <result column="user_id" property="userId" jdbcType="INTEGER"/>
     <result column="created" property="created" jdbcType="TIMESTAMP" />
+    <result column="status" property="status" jdbcType="INTEGER"/>
   </resultMap>
   <resultMap id="ResultMapWithBLOBs" type="com.gunn.jys.entity.Task" extends="BaseResultMap" >
     <result column="content" property="content" jdbcType="LONGVARCHAR" />
+  </resultMap>
+
+  <resultMap id="TaskVo" type="com.gunn.jys.vo.task.TaskVo" extends="ResultMapWithBLOBs">
+    <result column="name" property="name" jdbcType="VARCHAR"/>
   </resultMap>
   <sql id="Base_Column_List" >
     id, title, short_content, created
@@ -17,4 +23,8 @@
   <sql id="Blob_Column_List" >
     content
   </sql>
+
+  <select id="findList" resultMap="TaskVo">
+    SELECT t.*,te.name FROM t_task t JOIN t_user u ON t.user_id = u.id JOIN t_teacher te ON te.user_id = u.id WHERE t.user_id = #{userId}
+  </select>
 </mapper>

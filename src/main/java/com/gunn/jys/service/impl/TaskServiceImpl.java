@@ -8,6 +8,8 @@ import com.gunn.jys.mapper.TaskFileMapper;
 import com.gunn.jys.mapper.TaskMapper;
 import com.gunn.jys.mapper.TaskNoticeMapper;
 import com.gunn.jys.service.TaskService;
+import com.gunn.jys.vo.task.TaskDetailVo;
+import com.gunn.jys.vo.task.TaskVo;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -54,5 +56,20 @@ public class TaskServiceImpl extends BaseServiceImpl<TaskMapper, Task> implement
         }
 
         return 1;
+    }
+
+    @Override
+    public List<TaskVo> findList(Integer userId) {
+        return dao.findList(userId);
+    }
+
+    @Override
+    public TaskDetailVo findDetail(Integer taskId) {
+        TaskDetailVo taskDetailVo = new TaskDetailVo();
+        taskDetailVo.setTask(dao.selectByPrimaryKey(taskId));
+        TaskFile query = new TaskFile();
+        List<TaskFile> taskFiles = taskFileMapper.select(query);
+        taskDetailVo.setTaskFiles(taskFiles);
+        return taskDetailVo;
     }
 }

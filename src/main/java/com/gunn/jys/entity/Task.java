@@ -18,9 +18,13 @@ public class Task {
 
     private Date releaseTime;
 
+    private Integer userId;
+
     private Date created;
 
     private String content;
+
+    private Integer status;
 
     public Integer getId() {
         return id;
@@ -68,5 +72,21 @@ public class Task {
 
     public void setReleaseTime(Date releaseTime) {
         this.releaseTime = releaseTime;
+    }
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
     }
 }
