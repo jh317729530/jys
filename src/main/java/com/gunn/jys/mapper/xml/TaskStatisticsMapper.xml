@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.gunn.jys.mapper.TaskStatisticsMapper" >
+  <resultMap id="BaseResultMap" type="com.gunn.jys.entity.TaskStatistics" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="teacher_id" property="teacherId" jdbcType="INTEGER" />
+    <result column="task_id" property="taskId" jdbcType="INTEGER" />
+    <result column="finish_time" property="finishTime" jdbcType="TIMESTAMP" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="file_url" property="fileUrl" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <resultMap id="TaskStatisticsVo" type="com.gunn.jys.vo.task.TaskStatisticsVo" extends="BaseResultMap">
+    <result column="teacher_name" property="teacherName" jdbcType="VARCHAR"/>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, teacher_id, task_id, finish_time, status, file_url
+  </sql>
+
+  <select id="findList" resultMap="TaskStatisticsVo">
+    SELECT ts.*,t.name AS teacher_name FROM t_task_statistics ts JOIN t_teacher t ON ts.teacher_id = t.id WHERE ts.task_id = #{taskId}
+  </select>
+
+  <insert id="insertBatch">
+    INSERT INTO t_task_statistics (teacher_id, task_id, status) VALUES
+    <foreach collection="taskStatisticsList" item="item" separator=",">
+      (
+        #{item.teacherId},#{item.taskId},#{item.status}
+      )
+    </foreach>
+  </insert>
+</mapper>

@@ -4,11 +4,14 @@ import com.gunn.jys.base.impl.BaseServiceImpl;
 import com.gunn.jys.entity.Task;
 import com.gunn.jys.entity.TaskFile;
 import com.gunn.jys.entity.TaskNotice;
+import com.gunn.jys.entity.TaskStatistics;
 import com.gunn.jys.mapper.TaskFileMapper;
 import com.gunn.jys.mapper.TaskMapper;
 import com.gunn.jys.mapper.TaskNoticeMapper;
+import com.gunn.jys.mapper.TaskStatisticsMapper;
 import com.gunn.jys.service.TaskService;
 import com.gunn.jys.vo.task.TaskDetailVo;
+import com.gunn.jys.vo.task.TaskStatisticsVo;
 import com.gunn.jys.vo.task.TaskVo;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,6 +30,9 @@ public class TaskServiceImpl extends BaseServiceImpl<TaskMapper, Task> implement
     @Resource
     private TaskFileMapper taskFileMapper;
 
+    @Resource
+    private TaskStatisticsMapper taskStatisticsMapper;
+
     @Override
     @Transactional
     public int addTask(Task task, List<Integer> teacherIds, List<String> fileUrls) {
@@ -42,6 +48,16 @@ public class TaskServiceImpl extends BaseServiceImpl<TaskMapper, Task> implement
             taskNotices.add(taskNotice);
         });
         taskNoticeMapper.insertBatch(taskNotices);
+
+        List<TaskStatistics> taskStatisticsList = new ArrayList<>();
+        teacherIds.forEach(teacherId -> {
+            TaskStatistics taskStatistics = new TaskStatistics();
+            taskStatistics.setTaskId(task.getId());
+            taskStatistics.setTeacherId(teacherId);
+            taskStatistics.setStatus(0);
+            taskStatisticsList.add(taskStatistics);
+        });
+        taskStatisticsMapper.insertBatch(taskStatisticsList);
 
         if (null != fileUrls && 0 != fileUrls.size()) {
             List<TaskFile> taskFiles = new ArrayList<>();
@@ -72,4 +88,10 @@ public class TaskServiceImpl extends BaseServiceImpl<TaskMapper, Task> implement
         taskDetailVo.setTaskFiles(taskFiles);
         return taskDetailVo;
     }
+
+    @Override
+    public List<TaskStatisticsVo> findTaskStatisticsVo(Integer taskId) {
+        return taskStatisticsMapper.findList(taskId);
+    }
+
 }
