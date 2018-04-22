@@ -10,4 +10,6 @@ import java.util.List;
 public interface TaskMapper extends BaseMapper<Task> {
 
     List<TaskVo> findList(@Param("userId") Integer userId);
+
+    List<TaskVo> findHasTaskList(@Param("teacherId") Integer teacherId);
 }

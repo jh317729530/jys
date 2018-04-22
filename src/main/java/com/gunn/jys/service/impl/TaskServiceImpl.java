@@ -1,14 +1,8 @@
 package com.gunn.jys.service.impl;
 
 import com.gunn.jys.base.impl.BaseServiceImpl;
-import com.gunn.jys.entity.Task;
-import com.gunn.jys.entity.TaskFile;
-import com.gunn.jys.entity.TaskNotice;
-import com.gunn.jys.entity.TaskStatistics;
-import com.gunn.jys.mapper.TaskFileMapper;
-import com.gunn.jys.mapper.TaskMapper;
-import com.gunn.jys.mapper.TaskNoticeMapper;
-import com.gunn.jys.mapper.TaskStatisticsMapper;
+import com.gunn.jys.entity.*;
+import com.gunn.jys.mapper.*;
 import com.gunn.jys.service.TaskService;
 import com.gunn.jys.vo.task.TaskDetailVo;
 import com.gunn.jys.vo.task.TaskStatisticsVo;
@@ -32,6 +26,12 @@ public class TaskServiceImpl extends BaseServiceImpl<TaskMapper, Task> implement
 
     @Resource
     private TaskStatisticsMapper taskStatisticsMapper;
+
+    @Resource
+    private UserRoleMapper userRoleMapper;
+
+    @Resource
+    private TeacherMapper teacherMapper;
 
     @Override
     @Transactional
@@ -76,7 +76,17 @@ public class TaskServiceImpl extends BaseServiceImpl<TaskMapper, Task> implement
 
     @Override
     public List<TaskVo> findList(Integer userId) {
-        return dao.findList(userId);
+        UserRole query = new UserRole();
+        query.setUserId(userId);
+        UserRole userRole = userRoleMapper.selectOne(query);
+        if (2 == userRole.getRoleId()) {
+            return dao.findList(userId);
+        } else {
+            Teacher teacherQuery = new Teacher();
+            teacherQuery.setUserId(userId);
+            Teacher teacher = teacherMapper.selectOne(teacherQuery);
+            return dao.findHasTaskList(teacher.getId());
+        }
     }
 
     @Override

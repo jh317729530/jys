@@ -24,4 +24,11 @@ public class TeacherServiceImpl extends BaseServiceImpl<TeacherMapper,Teacher> i
         return dao.findList(status);
     }
 
+    @Override
+    public Teacher findByUserId(Integer userId) {
+        Teacher query = new Teacher();
+        query.setUserId(userId);
+        return select(query).get(0);
+    }
+
 }

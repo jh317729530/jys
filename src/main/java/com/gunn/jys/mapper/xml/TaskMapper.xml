@@ -27,4 +27,8 @@
   <select id="findList" resultMap="TaskVo">
     SELECT t.*,te.name FROM t_task t JOIN t_user u ON t.user_id = u.id JOIN t_teacher te ON te.user_id = u.id WHERE t.user_id = #{userId}
   </select>
+
+  <select id="findHasTaskList" resultMap="TaskVo">
+    SELECT t.*,te.name FROM t_task_notice tn JOIN t_teacher te ON tn.teacher_id = te.id JOIN t_task t JOIN t_user u ON t.user_id = u.id WHERE tn.teacher_id = #{teacherId}
+  </select>
 </mapper>

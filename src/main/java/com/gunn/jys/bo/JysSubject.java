@@ -11,7 +11,9 @@ public class JysSubject {
 
     private Integer isAdmin;
 
-    public JysSubject(Integer id,String username,Integer isAdmin){
+    private Integer teacherId;
+
+    public JysSubject(Integer id,String username,Integer isAdmin,Integer teacherId){
         super();
         this.id = id;
         this.username = username;
@@ -48,5 +50,13 @@ public class JysSubject {
 
     public void setIsAdmin(Integer isAdmin) {
         this.isAdmin = isAdmin;
+    }
+
+    public Integer getTeacherId() {
+        return teacherId;
+    }
+
+    public void setTeacherId(Integer teacherId) {
+        this.teacherId = teacherId;
     }
 }

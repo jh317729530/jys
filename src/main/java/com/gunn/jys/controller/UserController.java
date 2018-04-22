@@ -66,7 +66,9 @@ public class UserController extends BaseController {
                 return result;
             }
 
-            JysSubject jysSubject = new JysSubject(user.getId(), username, user.getIsAdmin());
+            Teacher teacher = teacherService.findByUserId(user.getId());
+
+            JysSubject jysSubject = new JysSubject(user.getId(), username, user.getIsAdmin(),teacher.getId());
             String json = jysSubject.toJson();
             log.info("admin login in info is[" + json + "]");
 

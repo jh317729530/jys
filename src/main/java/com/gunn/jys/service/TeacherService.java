@@ -12,4 +12,6 @@ public interface TeacherService extends BaseService<Teacher> {
     Page<TeacherUserVo> findPage(String name,Integer status);
 
     List<Teacher> findList(Integer status);
+
+    Teacher findByUserId(Integer userId);
 }

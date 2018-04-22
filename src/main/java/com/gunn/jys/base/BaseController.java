@@ -40,6 +40,11 @@ public class BaseController {
 
     }
 
+    protected Integer getTeacherId(HttpServletRequest request) {
+        Optional<JysSubject> optional = Optional.ofNullable(getJysSubject(request));
+        return optional.map(JysSubject::getTeacherId).orElse(null);
+    }
+
     /**
      * 获取前端用户的userId
      *
