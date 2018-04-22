@@ -18,6 +18,7 @@ import java.io.*;
 @RequestMapping("/common")
 public class CommonController extends BaseController {
 
+    @Anon
     @RequestMapping(value = "/upload", method = RequestMethod.POST)
     public Result upload(@RequestParam("file") MultipartFile file, HttpServletRequest request) throws IOException {
         InfoResult result = new InfoResult();
@@ -29,7 +30,8 @@ public class CommonController extends BaseController {
                 filePath.getParentFile().mkdir();
             }
             file.transferTo(new File(path + File.separator + fileName));
-            return new Result();
+            result.setInfo(fileName);
+            return result;
         } else {
             return new Result();
         }
