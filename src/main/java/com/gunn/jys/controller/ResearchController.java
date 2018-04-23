@@ -2,9 +2,13 @@ package com.gunn.jys.controller;
 
 import com.gunn.jys.annotation.Anon;
 import com.gunn.jys.base.BaseController;
+import com.gunn.jys.bo.MapResult;
+import com.gunn.jys.bo.Result;
 import com.gunn.jys.elasticsearch.dao.ArticleSearchRepository;
 import com.gunn.jys.elasticsearch.entity.Article;
+import com.gunn.jys.service.KeywordService;
 import com.gunn.jys.service.ResearchService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
 import org.springframework.data.elasticsearch.core.query.IndexQuery;
@@ -25,6 +29,9 @@ public class ResearchController extends BaseController {
 
     @Resource
     private ResearchService researchService;
+
+    @Resource
+    private KeywordService keywordService;
 
     @Autowired
     private ArticleSearchRepository articleSearchRepository;
@@ -47,4 +54,19 @@ public class ResearchController extends BaseController {
             e.printStackTrace();
         }
     }
+
+    @RequestMapping("getKeywords")
+    public Result getKeywords() {
+        MapResult result = new MapResult();
+        result.getInfo().put("selectedKeywords", keywordService.getListBySelected(1));
+        result.getInfo().put("noSelectedKeywords", keywordService.getListBySelected(0));
+        return result;
+    }
+
+//    @RequestMapping
+//    public Result list(String title) {
+//        if (StringUtils.isNotBlank(title)) {
+////            articleSearchRepository.search()
+//        }
+//    }
 }

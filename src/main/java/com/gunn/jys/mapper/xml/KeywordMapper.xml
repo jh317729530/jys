@@ -10,4 +10,13 @@
   <sql id="Base_Column_List" >
     id, keyword, created, selected
   </sql>
+
+  <select id="findListBySelected" resultMap="BaseResultMap">
+    SELECT * FROM t_keyword
+    <where>
+      <if test="selected != null">
+        selected = #{selected}
+      </if>
+    </where>
+  </select>
 </mapper>
