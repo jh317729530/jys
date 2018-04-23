@@ -11,4 +11,6 @@ import java.util.List;
 public interface KeywordService extends BaseService<Keyword> {
 
     List<Keyword> getListBySelected(Integer selected);
+
+    int updateKeywords(List<Integer> selectedKeywordIds, List<Integer> noSelectedKeywordIds);
 }

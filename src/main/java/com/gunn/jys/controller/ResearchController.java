@@ -8,6 +8,7 @@ import com.gunn.jys.elasticsearch.dao.ArticleSearchRepository;
 import com.gunn.jys.elasticsearch.entity.Article;
 import com.gunn.jys.service.KeywordService;
 import com.gunn.jys.service.ResearchService;
+import com.gunn.jys.vo.param.KeywordsParamVo;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
@@ -61,6 +62,12 @@ public class ResearchController extends BaseController {
         result.getInfo().put("selectedKeywords", keywordService.getListBySelected(1));
         result.getInfo().put("noSelectedKeywords", keywordService.getListBySelected(0));
         return result;
+    }
+
+    @RequestMapping("setKeywords")
+    public Result setKeywords(KeywordsParamVo keywordsParamVo) {
+        keywordService.updateKeywords(keywordsParamVo.getSelectedKeywordIds(), keywordsParamVo.getNoSelectedKeywordIds());
+        return new Result();
     }
 
 //    @RequestMapping
