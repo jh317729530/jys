@@ -105,6 +105,14 @@ public class UserController extends BaseController {
         return mapResult;
     }
 
+    @RequestMapping("detailInfo")
+    public Result detailInfo() {
+        MapResult result = new MapResult();
+        result.getInfo().put("user", userService.selectByPrimaryKey(getUserId()));
+        result.getInfo().put("teacher", teacherService.selectByPrimaryKey(getTeacherId()));
+        return result;
+    }
+
     @RequestMapping("test")
     public Result test(){
         User user = userService.selectByUsername("15603017553");

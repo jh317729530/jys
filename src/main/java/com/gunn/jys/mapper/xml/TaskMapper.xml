@@ -16,6 +16,7 @@
 
   <resultMap id="TaskVo" type="com.gunn.jys.vo.task.TaskVo" extends="ResultMapWithBLOBs">
     <result column="name" property="name" jdbcType="VARCHAR"/>
+    <result column="finished_status" property="finishedStatus" jdbcType="INTEGER"/>
   </resultMap>
   <sql id="Base_Column_List" >
     id, title, short_content, created
@@ -29,6 +30,6 @@
   </select>
 
   <select id="findHasTaskList" resultMap="TaskVo">
-    SELECT t.*,te.name FROM t_task_notice tn JOIN t_teacher te ON tn.teacher_id = te.id JOIN t_task t JOIN t_user u ON t.user_id = u.id WHERE tn.teacher_id = #{teacherId}
+    SELECT t.*,te.name,ts.status AS finished_status FROM t_task_notice tn JOIN t_task_statistics ts ON tn.task_id = ts.task_id AND ts.teacher_id = #{teacherId} JOIN t_teacher te ON tn.teacher_id = te.id JOIN t_task t ON tn.task_id = t.id JOIN t_user u ON t.user_id = u.id WHERE tn.teacher_id = #{teacherId}
   </select>
 </mapper>
